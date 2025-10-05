@@ -18,57 +18,7 @@ This project applies survival analysis techniques to call data records (CDR) to 
 - **Temporal Patterns**: Visualize how communication frequency changes over time
 - **Statistical Modeling**: Apply lifelines library for robust survival analysis
 
-## Requirements
-
-- Python 3.7+
-- lifelines
-- pandas
-- numpy
-- matplotlib
-- networkx
-- seaborn
-
-## Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/medined/Mapping-Relationship-Tempo-Using-Call-Data-and-Lifelines.git
-cd Mapping-Relationship-Tempo-Using-Call-Data-and-Lifelines
-```
-
-2. Create a virtual environment (recommended):
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
-3. Install dependencies:
-```bash
-pip install lifelines pandas numpy matplotlib networkx seaborn
-```
-
-## Usage
-
-### Basic Example
-
-```python
-from lifelines import KaplanMeierFitter
-import pandas as pd
-
-# Load your call data
-call_data = pd.read_csv('your_call_data.csv')
-
-# Prepare data for survival analysis
-# Duration: time between calls
-# Event: whether reconnection occurred (1) or censored (0)
-
-kmf = KaplanMeierFitter()
-kmf.fit(durations=call_data['duration'], 
-        event_observed=call_data['reconnected'])
-
-# Plot the survival curve
-kmf.plot_survival_function()
-```
+## Data Preparation
 
 ### Data Format
 
@@ -80,10 +30,47 @@ Your call data should include:
 
 Example CSV format:
 ```csv
-caller,receiver,timestamp,duration
-555-0001,555-0002,2024-01-01 10:30:00,120
-555-0002,555-0003,2024-01-01 11:45:00,300
-...
+caller,reciever,timestamp,duration
+PERSON B,PERSON C,2025-07-01T14:30:00-04:00,1399
+PERSON A,PERSON B,2025-07-07T10:00:00-04:00,270
+PERSON B,PERSON C,2025-07-08T14:30:00-04:00,1326
+```
+
+This CSV snippet shows three calls between three people.
+
+- Person B calls Person C on July 1st for 1399 seconds.
+- Person A calls Person B on July 7th for 270 seconds.
+- Person B calls Person C on July 8th for 1326 seconds.
+
+Note that the caller and reciever fields can be any values that unique identifies the two parties in the call. You might find it more convenient to use phone numbers or some other identifier.
+
+## Usage
+
+- nb-load-cdr-data.py - This script shows how to read the raw CSV file.
+![Raw CSV Shown In Marimo](img-raw-dataset.png)
+
+### Basic Example
+
+```python
+from lifelines import KaplanMeierFitter
+import pandas as pd
+
+# Load your call data
+call_data = pd.read_csv('your_call_data.csv')
+
+kmf = KaplanMeierFitter()
+plt.figure(figsize=(6, 4))
+
+for (caller, receiver), group in df_survival.groupby(["caller", "reciever"]):
+    kmf.fit(group["duration"], event_observed=group["reconnected"], label=f"{caller} → {receiver}")
+    kmf.plot_survival_function()
+
+plt.xlabel("Days until next call")
+plt.ylabel("Survival probability")
+plt.title("Kaplan–Meier: Time-to-Reconnection per Dyad")
+plt.legend()
+plt.tight_layout()
+
 ```
 
 ## Project Structure
