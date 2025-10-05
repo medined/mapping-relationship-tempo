@@ -1,4 +1,6 @@
 lifelines
 marimo
 matplotlib
+networkx
 pandas
+seaborn
