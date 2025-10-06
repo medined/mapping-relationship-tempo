@@ -44,50 +44,29 @@ This CSV snippet shows three calls between three people.
 
 Note that the caller and reciever fields can be any values that unique identifies the two parties in the call. You might find it more convenient to use phone numbers or some other identifier.
 
+## Derived Fields Needed For Survial Analysis
+
+The raw data has just four fields: caller, reciever, timestamp, and duration. In order for the survival analysis to be run some fields need to be derived.
+
+- next_timestamp - This is the time of the next interaction between the caller and reciever. The data needs to be reordered in order to find this datum for each interaction.
+- reconnected - This is true if the current interaction is followed by another. If this is true, then there must be a value in the next_timestamp field.
+
 ## Usage
 
-- nb-load-cdr-data.py - This script shows how to read the raw CSV file.
-![Raw CSV Shown In Marimo](img-raw-dataset.png)
+These are Marimo notebooks. For more information, see <https://marimo.io/>.
 
-### Basic Example
+- nb-load-cdr-data.py - This notebook shows how to read the raw CSV file.
+![Raw Data](img-raw-dataset.png)
 
-```python
-from lifelines import KaplanMeierFitter
-import pandas as pd
+- nb-show-transformed-data.py - This notebook transforms the raw data into the format needed for the survival analysis to be run.
+![Transformed Data](img-transformed-dataset.png)
 
-# Load your call data
-call_data = pd.read_csv('your_call_data.csv')
+- nb-draw-network-from-cdr-data.py - This notebook shows how the two people in the interactions are related. Note the arrows depict the caller-callee relationship. This code is very primitive. For example, it won't handle a bi-directional relationship nicely when caller A calls caller B and vice versa.
+![Show The Caller-Callee Relationships](img-interaction-diagram.png)
 
-kmf = KaplanMeierFitter()
-plt.figure(figsize=(6, 4))
-
-for (caller, receiver), group in df_survival.groupby(["caller", "reciever"]):
-    kmf.fit(group["duration"], event_observed=group["reconnected"], label=f"{caller} → {receiver}")
-    kmf.plot_survival_function()
-
-plt.xlabel("Days until next call")
-plt.ylabel("Survival probability")
-plt.title("Kaplan–Meier: Time-to-Reconnection per Dyad")
-plt.legend()
-plt.tight_layout()
-
-```
-
-## Project Structure
-
-```
-Mapping-Relationship-Tempo-Using-Call-Data-and-Lifelines/
-├── README.md           # This file
-├── LICENSE            # MIT License
-├── .gitignore         # Git ignore rules
-├── notebooks/         # Jupyter notebooks for analysis (to be added)
-├── src/              # Source code (to be added)
-│   ├── analysis.py   # Survival analysis functions
-│   ├── network.py    # Network graph generation
-│   └── visualization.py  # Plotting functions
-├── data/             # Sample data (to be added)
-└── examples/         # Example scripts (to be added)
-```
+- nb-plot-time-to-reconnection.py - This notebook uses Kaplan-Meier to plot the time to reconnection for all caller-callee interactions and per caller-callee combinations.
+![Time To Reconnect For All Caller-Callee Combinations](img-time-to-reconnect-all.png)
+![Time To Reconnect For Each Caller-Callee Combinations](img-time-to-reconnect-each.png)
 
 ## Methodology
 
@@ -134,7 +113,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 - [Lifelines](https://lifelines.readthedocs.io/) - Python library for survival analysis
+- [Matplotlib](https://matplotlib.org/) - a library for visualizations
 - [NetworkX](https://networkx.org/) - Network analysis library
+- [Pandas](https://pandas.pydata.org/) - an open source data analysis tool
 - Research in social network analysis and survival analysis methodologies
 
 ## References
@@ -145,6 +126,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-David Medinets - [@medined](https://github.com/medined)
-
-Project Link: [https://github.com/medined/Mapping-Relationship-Tempo-Using-Call-Data-and-Lifelines](https://github.com/medined/Mapping-Relationship-Tempo-Using-Call-Data-and-Lifelines)
+David Medinets - [@medined](https://github.com/medined) - <david.medinets@gmail.com>
