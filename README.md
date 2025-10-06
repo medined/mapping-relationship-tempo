@@ -56,17 +56,27 @@ The raw data has just four fields: caller, reciever, timestamp, and duration. In
 These are Marimo notebooks. For more information, see <https://marimo.io/>.
 
 - nb-load-cdr-data.py - This notebook shows how to read the raw CSV file.
+
 ![Raw Data](img-raw-dataset.png)
+*Raw Data*
 
 - nb-show-transformed-data.py - This notebook transforms the raw data into the format needed for the survival analysis to be run.
+
 ![Transformed Data](img-transformed-dataset.png)
+*Transformed Data*
 
 - nb-draw-network-from-cdr-data.py - This notebook shows how the two people in the interactions are related. Note the arrows depict the caller-callee relationship. This code is very primitive. For example, it won't handle a bi-directional relationship nicely when caller A calls caller B and vice versa.
+
 ![Show The Caller-Callee Relationships](img-interaction-diagram.png)
+*Show The Caller-Callee Relationships*
 
 - nb-plot-time-to-reconnection.py - This notebook uses Kaplan-Meier to plot the time to reconnection for all caller-callee interactions and per caller-callee combinations.
+
 ![Time To Reconnect For All Caller-Callee Combinations](img-time-to-reconnect-all.png)
+*Time To Reconnect For All Caller-Callee Combinations*
+
 ![Time To Reconnect For Each Caller-Callee Combinations](img-time-to-reconnect-each.png)
+*Time To Reconnect For Each Caller-Callee Combinations*
 
 ## Methodology
 
