@@ -67,7 +67,7 @@ These are Marimo notebooks. For more information, see <https://marimo.io/>.
 
 - nb-draw-network-from-cdr-data.py - This notebook shows how the two people in the interactions are related. Note the arrows depict the caller-callee relationship. This code is very primitive. For example, it won't handle a bi-directional relationship nicely when caller A calls caller B and vice versa.
 
-![Show The Caller-Callee Relationships](img-interaction-diagram.png)
+![Show The Caller-Callee Relationships](img-interaction-diagram.png)<br/>
 *Show The Caller-Callee Relationships*
 
 - nb-plot-time-to-reconnection.py - This notebook uses Kaplan-Meier to plot the time to reconnection for all caller-callee interactions and per caller-callee combinations.
